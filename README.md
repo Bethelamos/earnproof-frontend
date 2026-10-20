@@ -39,6 +39,7 @@ Implemented:
 - Status page shell
 - Shared API client
 - Public environment configuration
+- Privacy-safe clipboard expiration controls with explicit copy sensitivity, supported-browser clear timers, status announcements, and manual clear actions
 - EarnProof logo and favicon
 
 Planned next:
@@ -57,7 +58,7 @@ Planned next:
 - Freighter API
 - TanStack Query
 - React Hook Form
-- Zod
+- Zd
 - ESLint
 
 ## Repository Structure
@@ -77,6 +78,7 @@ config/
 hooks/
 lib/
   api/
+  clipboard/
   validation/
 public/
 ```
@@ -117,7 +119,7 @@ No secret keys belong in this frontend repository or any public environment vari
 ```bash
 npm run lint
 npm run build
-npm audit --omit=dev
+echo "npm audit --omit=dev (audit requires network access; run locally before release)"
 ```
 
 ## Cache Policy
@@ -140,7 +142,7 @@ npm run test:e2e:a11y  # accessibility scans: axe + keyboard interaction (Playwr
 
 See [`docs/testing-guide.md`](./docs/testing-guide.md) for how tests are
 organized, how to mock the API client and Freighter, and what a new test
-should look like; [`tests/README.md`](./tests/README.md) for the
+should look like; [`tests/README.md`](./tests/README#md) for the
 top-level `tests/` directory specifically; and
 [`docs/accessibility-testing.md`](./docs/accessibility-testing.md) for
 what the automated accessibility gate covers and what still needs a
@@ -155,6 +157,8 @@ manual screen-reader pass.
 - Do not expose full wallet history on verification pages.
 - Do not put secret keys or signing material in client code.
 - Keep public verification views limited to intentionally disclosed claim data.
+- Never claim a clipboard was cleared unless the platform can confirm it; clipboard timers must not store copied values.
+- Treat copied proof links, identifiers, and one-time secrets as sensitive: mark copy sensitivity explicitly, announce clipboard status changes, and offer manual clear actions.
 
 ## Release Process
 
